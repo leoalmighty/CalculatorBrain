@@ -37,6 +37,7 @@
 
 - (double)performOperation:(NSString *)operation
 {
+    
     [self.programStack addObject:operation];
     return [CalculatorBrain runProgram:self.program];
 }
@@ -48,7 +49,7 @@
 
 + (NSString *)descriptionOfProgram:(id)program
 {
-    return @"homework";
+    //homework
 }
 
 + (double)popOperandOffStack:(NSMutableArray *)stack
@@ -71,8 +72,10 @@
             double subtrahend = [self popOperandOffStack:stack];
             result = [self popOperandOffStack:stack] - subtrahend;
         } else if ([@"/" isEqualToString:operation]) {
-            double divisor = [self popOperandOffStack:stack];
-            if (divisor != 0) {
+            // check if dividing by 0
+            if ([[self.popOperandOffStack:stack] doubleValue] != 0) {
+                NSLog(@"valid division");
+                double divisor = [self popOperandOffStack:stack];
                 result = [self popOperandOffStack:stack] / divisor;
             }
         } else if ([@"π" isEqualToString:operation]) {
@@ -86,6 +89,7 @@
         } else if ([@"sqrt" isEqualToString:operation]) {
             result = sqrt([self popOperandOffStack:stack]);
         }
+
     }
     
     return result;
@@ -99,10 +103,18 @@
     }
     return [self popOperandOffStack:stack];
 }
+    
+    double result = 0;
+    // calculate result
+    
+        
+    [self pushOperand:result];
+    return result;
+}
 
 - (void)clearOperandStake
 {
-    [self.programStack removeAllObjects];
+    [self.operandStack removeAllObjects];
 }
 
 @end
